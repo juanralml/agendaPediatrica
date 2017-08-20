@@ -8,6 +8,7 @@ package entidades.service;
 import entidades.Usuarios;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -82,6 +83,7 @@ public class UsuariosFacadeREST extends AbstractFacade<Usuarios> {
 
     @Override
     protected EntityManager getEntityManager() {
+        em = Persistence.createEntityManagerFactory("agenda_pedriatricaPU").createEntityManager();
         return em;
     }
     
