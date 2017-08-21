@@ -59,6 +59,13 @@ public class UsuariosFacadeREST extends AbstractFacade<Usuarios> {
     public Usuarios find(@PathParam("id") Integer id) {
         return super.find(id);
     }
+    
+    @GET
+    @Path("prueba/{id3}")
+    @Produces({"application/xml", "application/json"})
+    public Usuarios find2(@PathParam("id3") Integer id) {
+        return super.find(id);
+    }
 
     @GET
     @Override
