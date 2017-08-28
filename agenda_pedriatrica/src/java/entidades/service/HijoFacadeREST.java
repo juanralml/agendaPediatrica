@@ -5,7 +5,7 @@
  */
 package entidades.service;
 
-import entidades.Usuarios;
+import entidades.Hijo;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -25,53 +25,53 @@ import javax.ws.rs.Produces;
  * @author usuario
  */
 @Stateless
-@Path("entidades.usuarios")
-public class UsuariosFacadeREST extends AbstractFacade<Usuarios> {
+@Path("entidades.hijo")
+public class HijoFacadeREST extends AbstractFacade<Hijo> {
     @PersistenceContext(unitName = "agenda_pedriatricaPU")
     private EntityManager em;
 
-    public UsuariosFacadeREST() {
-        super(Usuarios.class);
+    public HijoFacadeREST() {
+        super(Hijo.class);
     }
 
     @POST
     @Override
     @Consumes({"application/xml", "application/json"})
-    public void create(Usuarios entity) {
+    public void create(Hijo entity) {
         super.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({"application/xml", "application/json"})
-    public void edit(@PathParam("id") Integer id, Usuarios entity) {
+    public void edit(@PathParam("id") String id, Hijo entity) {
         super.edit(entity);
     }
 
     @DELETE
     @Path("{id}")
-    public void remove(@PathParam("id") Integer id) {
+    public void remove(@PathParam("id") String id) {
         super.remove(super.find(id));
     }
 
     @GET
     @Path("{id}")
     @Produces({"application/xml", "application/json"})
-    public Usuarios find(@PathParam("id") Integer id) {
+    public Hijo find(@PathParam("id") String id) {
         return super.find(id);
     }
 
     @GET
     @Override
     @Produces({"application/xml", "application/json"})
-    public List<Usuarios> findAll() {
+    public List<Hijo> findAll() {
         return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({"application/xml", "application/json"})
-    public List<Usuarios> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+    public List<Hijo> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
 
@@ -81,8 +81,17 @@ public class UsuariosFacadeREST extends AbstractFacade<Usuarios> {
     public String countREST() {
         return String.valueOf(super.count());
     }
-    
 
+    @POST
+    @Path("por_padre")
+    @Consumes({"application/json"})
+    @Produces({"application/json"})
+    public List<Hijo> find_padre(Hijo entity) {
+       return this.getEntityManager().createNamedQuery("Hijo.findByPadreId")
+                .setParameter("padreId", entity.getPadreId())
+                .getResultList();
+    }
+    
     @Override
     protected EntityManager getEntityManager() {
         em = Persistence.createEntityManagerFactory("agenda_pedriatricaPU").createEntityManager();
