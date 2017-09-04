@@ -81,7 +81,7 @@ public class HijoFacadeREST extends AbstractFacade<Hijo> {
     public String countREST() {
         return String.valueOf(super.count());
     }
-
+    
     @POST
     @Path("por_padre")
     @Consumes({"application/json"})
@@ -91,7 +91,7 @@ public class HijoFacadeREST extends AbstractFacade<Hijo> {
                 .setParameter("padreId", entity.getPadreId())
                 .getResultList();
     }
-    
+
     @Override
     protected EntityManager getEntityManager() {
         em = Persistence.createEntityManagerFactory("agenda_pedriatricaPU").createEntityManager();

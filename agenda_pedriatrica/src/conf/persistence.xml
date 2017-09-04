@@ -4,6 +4,8 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>entidades.Usuarios</class>
     <class>entidades.Hijo</class>
+    <class>entidades.HijoVacuna</class>
+    <class>entidades.Vacunas</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5433/agenda_pediatrica"/>

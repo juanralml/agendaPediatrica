@@ -30,3 +30,42 @@
 		"sexo": "M"
 	}
 ]
+//json hijo vacuna completo
+[{
+		"fecha": "2017-08-02T00:00:00-04:00",
+		"hijo": {
+			"apellidos": "cuervo",
+			"ci": "1111111",
+			"nombres": "jose ",
+			"padreId": {
+				"email": "ASDASD",
+				"id": 7,
+				"lastName": "ASD",
+				"name": "ASDA",
+				"userName": "sDASDASD"
+			}
+		},
+		"hijoVacunaPK": {
+			"hijoCi": "1111111",
+			"vacunaId": 1
+		},
+		"lote": "asdasda",
+		"responsable": "jose",
+		"vacunas": {
+			"descripcion": "anti Rotavirus 1ra Dosis",
+			"esquemaIdealMeses": 2,
+			"id": 1
+		}
+	}
+]
+//json vacuna completo
+[{
+		"descripcion": "OPV/IPV 1ra Dosis",
+		"esquemaIdealMeses": 2,
+		"id": 2
+	}, {
+		"descripcion": "anti Rotavirus 1ra Dosis",
+		"esquemaIdealMeses": 2,
+		"id": 1
+	}
+]

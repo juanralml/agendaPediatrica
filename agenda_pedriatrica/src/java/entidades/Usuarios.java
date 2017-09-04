@@ -6,6 +6,7 @@
 package entidades;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,8 +15,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -33,6 +37,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Usuarios.findByName", query = "SELECT u FROM Usuarios u WHERE u.name = :name"),
     @NamedQuery(name = "Usuarios.findByLastName", query = "SELECT u FROM Usuarios u WHERE u.lastName = :lastName")})
 public class Usuarios implements Serializable {
+    @Size(max = 8)
+    @Column(name = "ci")
+    private String ci;
+    @OneToMany(mappedBy = "padreId")
+    private Collection<Hijo> hijoCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -118,6 +127,23 @@ public class Usuarios implements Serializable {
     @Override
     public String toString() {
         return "entidades.Usuarios[ id=" + id + " ]";
+    }
+
+    public String getCi() {
+        return ci;
+    }
+
+    public void setCi(String ci) {
+        this.ci = ci;
+    }
+
+    @XmlTransient
+    public Collection<Hijo> getHijoCollection() {
+        return hijoCollection;
+    }
+
+    public void setHijoCollection(Collection<Hijo> hijoCollection) {
+        this.hijoCollection = hijoCollection;
     }
     
 }
