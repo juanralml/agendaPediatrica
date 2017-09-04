@@ -9,6 +9,7 @@ import entidades.Usuarios;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
@@ -34,33 +35,6 @@ public class UsuariosFacadeREST extends AbstractFacade<Usuarios> {
         super(Usuarios.class);
     }
 
-    @POST
-    @Override
-    @Consumes({"application/xml", "application/json"})
-    public void create(Usuarios entity) {
-        super.create(entity);
-    }
-
-    @PUT
-    @Path("{id}")
-    @Consumes({"application/xml", "application/json"})
-    public void edit(@PathParam("id") Integer id, Usuarios entity) {
-        super.edit(entity);
-    }
-
-    @DELETE
-    @Path("{id}")
-    public void remove(@PathParam("id") Integer id) {
-        super.remove(super.find(id));
-    }
-
-    @GET
-    @Path("{id}")
-    @Produces({"application/xml", "application/json"})
-    public Usuarios find(@PathParam("id") Integer id) {
-        return super.find(id);
-    }
-
     @GET
     @Override
     @Produces({"application/xml", "application/json"})
@@ -69,19 +43,113 @@ public class UsuariosFacadeREST extends AbstractFacade<Usuarios> {
     }
 
     @GET
-    @Path("{from}/{to}")
-    @Produces({"application/xml", "application/json"})
-    public List<Usuarios> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return super.findRange(new int[]{from, to});
-    }
-
-    @GET
     @Path("count")
     @Produces("text/plain")
     public String countREST() {
         return String.valueOf(super.count());
     }
-
+    
+    @POST
+    @Path("delete")
+    @Consumes({"application/json"})
+    @Produces({"application/json"})
+    public Usuarios delete_user(Usuarios entity) {
+        EntityManagerFactory emf = Persistence
+        .createEntityManagerFactory("agenda_pedriatricaPU");
+        Usuarios user = new Usuarios();
+        EntityManager em2 = emf.createEntityManager();
+        try {
+            user = em2.find(Usuarios.class, entity.getId());
+            em2.getTransaction().begin();
+            em2.remove(user);
+            em2.getTransaction().commit();
+        } catch (Exception e) {
+            em2.close();
+        } finally{
+            em2.close();
+        }
+        return user;
+    }
+    
+    @POST
+    @Path("add")
+    @Consumes({"application/json"})
+    @Produces({"application/json"})
+    public Usuarios add_user(Usuarios entity) {
+        EntityManagerFactory emf = Persistence
+        .createEntityManagerFactory("agenda_pedriatricaPU");
+        Usuarios user = new Usuarios();
+        EntityManager em2 = emf.createEntityManager();
+        try {
+            user = em2.find(Usuarios.class, entity.getId());
+            em2.getTransaction().begin();
+            em2.persist(user);
+            em2.getTransaction().commit();
+        } catch (Exception e) {
+            em2.close();
+        }finally{
+            em2.close();
+        }
+        return user;
+    }
+    
+    @POST
+    @Path("edit")
+    @Consumes({"application/json"})
+    @Produces({"application/json"})
+    public Usuarios edit_user(Usuarios entity) {
+        EntityManagerFactory emf = Persistence
+        .createEntityManagerFactory("agenda_pedriatricaPU");
+        Usuarios user = new Usuarios();
+        EntityManager em2 = emf.createEntityManager();
+        try {
+            user = em2.find(Usuarios.class,entity.getId());
+            user.setName(entity.getName());
+            user.setLastName(entity.getLastName());
+            user.setUserName(entity.getUserName());
+            user.setEmail(entity.getEmail());
+            user.setCi(entity.getCi());
+            em2.getTransaction().begin();
+            em2.persist(user);
+            em2.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            em2.getTransaction().rollback();
+            em2.close();
+        }finally{
+            em2.close();
+        }
+        return user;
+    }
+    
+    @POST
+    @Path("get_by_ci")
+    @Consumes({"application/json"})
+    @Produces({"application/json"})
+    public List<Usuarios> find_ci(Usuarios entity) {
+       return this.getEntityManager().createNamedQuery("Usuarios.findByCi")
+                .setParameter("id", entity.getCi())
+                .getResultList();
+    } 
+    @POST
+    @Path("get_by_user_name")
+    @Consumes({"application/json"})
+    @Produces({"application/json"})
+    public List<Usuarios> find_user_name(Usuarios entity) {
+       return this.getEntityManager().createNamedQuery("Usuarios.findByUserName")
+                .setParameter("userName", entity.getUserName())
+                .getResultList();
+    }
+    @POST
+    @Path("get_by_email")
+    @Consumes({"application/json"})
+    @Produces({"application/json"})
+    public List<Usuarios> find_email(Usuarios entity) {
+       return this.getEntityManager().createNamedQuery("Usuarios.findByEmail")
+                .setParameter("email", entity.getEmail())
+                .getResultList();
+    }
+    
     @Override
     protected EntityManager getEntityManager() {
         em = Persistence.createEntityManagerFactory("agenda_pedriatricaPU").createEntityManager();

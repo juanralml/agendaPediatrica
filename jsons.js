@@ -1,6 +1,15 @@
 {
 	"id": 2
 }
+//ejemplo usuarios byid
+{
+	"ci": "12123",
+	"email": "ASDASD",
+	"id": 7,
+	"lastName": "ASD",
+	"name": "ASDA",
+	"userName": "sDASDASD"
+}
 //ejemplo de prueba de por padre id
 {
 	"padreId": {
