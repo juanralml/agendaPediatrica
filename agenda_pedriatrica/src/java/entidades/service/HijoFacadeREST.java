@@ -6,8 +6,10 @@
 package entidades.service;
 
 import entidades.Hijo;
+import entidades.Usuarios;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.json.JsonObject;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
@@ -63,7 +65,7 @@ public class HijoFacadeREST extends AbstractFacade<Hijo> {
 
     @GET
     @Override
-    @Produces({"application/xml", "application/json"})
+    @Produces({"application/json"})
     public List<Hijo> findAll() {
         return super.findAll();
     }
