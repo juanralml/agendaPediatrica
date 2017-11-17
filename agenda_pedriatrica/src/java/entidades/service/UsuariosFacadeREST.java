@@ -5,13 +5,18 @@
  */
 package entidades.service;
 
+import entidades.Hijo;
 import entidades.Usuarios;
+import entidades.Vacunas;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.json.JsonObject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -20,6 +25,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import jsonObjects.NotificacionesVacunas;
 
 /**
  *
@@ -149,6 +155,42 @@ public class UsuariosFacadeREST extends AbstractFacade<Usuarios> {
                 .setParameter("email", entity.getEmail())
                 .getResultList();
     }
+    
+    
+    @POST
+    @Path("notifiVac")
+    @Consumes({"application/json"})
+    @Produces({"application/json"})
+    public List<NotificacionesVacunas> getNotification(Usuarios entity) {
+        //declarar lista
+        List<NotificacionesVacunas> notif  = new ArrayList<NotificacionesVacunas>();
+        
+        
+        //ejecutar query nativo para obtener vacunas
+        Query query = this.getEntityManager().createNativeQuery("select a.id,b.ci,a.descripcion,a.esquema_ideal_meses,\n" +
+                "((a.esquema_ideal_meses*30)::numeric -(current_date-b.fecha_nacimiento))::integer\n" +
+                "from vacunas a\n" +
+                "join hijo b on (a.esquema_ideal_meses*30)::integer -(current_date-b.fecha_nacimiento)::integer < 15 \n" +
+                "and padre_id = ?\n" +
+                "where a.id not in (select vacuna_id from hijo_vacuna where hijo_ci = b.ci)").setParameter(1, entity.getId());
+        //guardar resultado en una lista
+        List<Object[]> result= query.getResultList();
+        //recorrer lista
+        for (Object[] a : result) {
+            //obtener varialbes
+            Integer a1 = (Integer) a[0];
+            String a2 = (String) a[1];
+            String a3 = (String) a[2];
+            Integer a4 = (Integer) a[3];
+            Integer a5 = (Integer) a[4];
+            //cargar en json a responser
+            NotificacionesVacunas preNotif= new NotificacionesVacunas(a1,a2,a3,a4,a5);
+            notif.add(preNotif);
+        }
+        //retorno
+       return notif;
+    }
+    
     
     @Override
     protected EntityManager getEntityManager() {
