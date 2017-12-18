@@ -6,7 +6,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,11 +31,28 @@ public class VacunasHijoActivity extends AppCompatActivity {
     //private ArrayList<VacunasHijos> vacunasHijos = new ArrayList<VacunasHijos>();
     private String hijoCi;
     private Activity act;
+    private String orden="Esquema Ideal";
+    private String filtro="Esquema Ideal";
+    private Spinner spinner;
+    private Spinner spinner2;
+    private ArrayList<String> ordenList = new ArrayList<String>();
+    private Button buttonF;
+
+  //  {"Esquema Ideal","Nombre","Aplicado","Fecha"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vacunas_hijo);
+        ordenList.add("Esquema Ideal");
+        ordenList.add("Nombre");
+        ordenList.add("Aplicado");
+        ordenList.add("Fecha");
+        spinner = (Spinner) findViewById(R.id.spinner);
+        spinner2 = (Spinner) findViewById(R.id.spinner2);
+        spinner.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,ordenList));
+        spinner2.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,ordenList));
 
+        buttonF = (Button) findViewById(R.id.button);
         Intent intent=getIntent();
         Bundle extras =intent.getExtras();
         if (extras != null) {//ver si contiene datos
@@ -47,6 +69,34 @@ public class VacunasHijoActivity extends AppCompatActivity {
         lv = (ListView) findViewById(R.id.lista_vacunas);
        // lv.setAdapter(adapter);
         act=this;
+        new ConecteToHttp().execute();
+
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                orden = ordenList.get(i);
+                Log.d("entra??","si");
+                Log.d("entra??",orden);
+           //     exeSElect();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        buttonF.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                exeSElect();
+            }
+        });
+
+    }
+
+    private void exeSElect(){
         new ConecteToHttp().execute();
     }
 
@@ -122,6 +172,9 @@ public class VacunasHijoActivity extends AppCompatActivity {
                 JSONObject cred = new JSONObject();
                 //cred.put("email",userName.getText());
                 cred.put("hijoCi",hijoCi);
+                cred.put("columnaOrden",orden);
+                cred.put("columnaFiltro",filtro);
+                cred.put("datoFiltro","");
 
                 byte[] bytes=cred.toString().getBytes("UTF-8");
 
