@@ -137,11 +137,33 @@ public class HijoVacunaFacadeREST extends AbstractFacade<HijoVacuna> {
         if(orderbypre.equals("Fecha")) orderby="fecha";
         orderby = "order by "+orderby;
         
+        
+        String filterbypre = objeto.getColumnaFiltro();
+        String filterbypre2 = "esquema_ideal_meses";
+        String filterBy="";
+        if(filterbypre.equals("Esquema Ideal")) filterbypre2="esquema_ideal_meses";
+        if(filterbypre.equals("Nombre")) filterbypre2="a.descripcion";
+        if(filterbypre.equals("Aplicado")) filterbypre2="aplicado desc";
+        if(filterbypre.equals("Fecha")) filterbypre2="fecha";
+        System.out.println("error filtro");
+        
+        String datoFiltro = objeto.getDatoFiltro();
+        System.out.println(datoFiltro);
+        if(null != datoFiltro){
+             if(datoFiltro.length()==0){
+                filterBy="";
+            }else{
+                filterBy="where "+filterbypre2+"::text ilike "+" '%"+datoFiltro+"%'::text\n";
+            }
+        }
+       
+        
+        
         //ejecutar query nativo para obtener vacunas
         Query query = this.getEntityManager().createNativeQuery("select\n" +
 "a.id id_vacuna,? hijo_ci, a.descripcion nombre_vacuna,case when hijo_ci is null then 'no' else 'si' end aplicado, esquema_ideal_meses::text, coalesce(to_char(fecha,'DD/MM/YYYY')::text,'')\n" +
 "from vacunas a\n" +
-"left join hijo_vacuna b on b.vacuna_id = a.id and b.hijo_ci = ?\n"+orderby)
+"left join hijo_vacuna b on b.vacuna_id = a.id and b.hijo_ci = ?\n"+filterBy+orderby)
                 .setParameter(1, objeto.getHijoCi())
                 .setParameter(2, objeto.getHijoCi());
         //guardar resultado en una lista
