@@ -24,41 +24,64 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:paddingTop="20dp"
-        android:orientation="horizontal">
+        android:paddingTop="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Esquema Ideal en Meses: "
             android:textSize="12dp"
-            android:textStyle="bold"
-            android:text="Esquema Ideal en Meses: " />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/esquemaIdeal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="12dp"
-            android:text="TextView" />
-
+            android:text="TextView"
+            android:textSize="12dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="5dp">
         <TextView
-            android:paddingLeft="5dp"
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="0dp"
+            android:text="Aplicado:"
             android:textSize="12dp"
-            android:textStyle="bold"
-            android:text="Aplicado:"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/aplicado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:text="TextView"
+            android:textSize="12dp" />
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="Fecha:"
             android:textSize="12dp"
-            android:text="TextView" />
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/fecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView"
+            android:textSize="12dp" />
     </LinearLayout>
 </LinearLayout>

@@ -10,15 +10,30 @@ public class VacunasHijos {
     private String nombreVacuna;
     private String aplicado;
     private String esquemaIdeal;
+    private String fechaAplicacion;
 
-    public VacunasHijos(Integer idVacuna, String ciHijo, String nombreVacuna, String aplicado, String esquemaIdeal) {
+    public VacunasHijos() {
+
+    }
+
+    public VacunasHijos(Integer idVacuna, String ciHijo, String nombreVacuna, String aplicado, String esquemaIdeal, String fechaAplicacion) {
 
         this.idVacuna = idVacuna;
         this.ciHijo = ciHijo;
         this.nombreVacuna = nombreVacuna;
         this.aplicado = aplicado;
         this.esquemaIdeal = esquemaIdeal;
+        this.fechaAplicacion = fechaAplicacion;
     }
+
+    public String getFechaAplicacion() {
+        return fechaAplicacion;
+    }
+
+    public void setFechaAplicacion(String fechaAplicacion) {
+        this.fechaAplicacion = fechaAplicacion;
+    }
+
 
     public Integer getIdVacuna() {
         return idVacuna;

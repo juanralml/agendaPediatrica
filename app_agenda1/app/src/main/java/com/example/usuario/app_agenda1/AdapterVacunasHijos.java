@@ -63,6 +63,9 @@ public class AdapterVacunasHijos extends BaseAdapter {
         TextView aplicado = (TextView) v.findViewById(R.id.aplicado);
         aplicado.setText(dir.getAplicado());
 
+        TextView fecha = (TextView) v.findViewById(R.id.fecha);
+        fecha.setText(dir.getFechaAplicacion());
+
         return v;
     }
 

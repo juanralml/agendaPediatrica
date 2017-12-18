@@ -77,7 +77,7 @@ public class SonsActivity extends AppCompatActivity {
         protected ArrayList conect() throws IOException, JSONException {
             //url del servidor restfull
             //URL url = new URL("http://192.168.10.131:8080/agenda_pedriatrica/webresources/entidades.hijo/por_padre");
-            URL url = new URL("http://172.20.10.4:8080/agenda_pedriatrica/webresources/entidades.hijo/por_padre");
+            URL url = new URL("http://172.20.10.4:8080/agenda_pedriatrica/webresources/entidades.hijo/listHijoPorPadre");
 //            URL url = new URL("http://192.168.0.15:8080/agenda_pedriatrica/webresources/entidades.hijo/por_padre");
              HttpURLConnection con = null;
             try {
@@ -88,9 +88,9 @@ public class SonsActivity extends AppCompatActivity {
                 //creacion del objeto json que se enviara
                 JSONObject json2 = new JSONObject();
                 json2.put("id",idPadre);
-                JSONObject cred = new JSONObject();
-                cred.put("padreId",json2);
-                byte[] bytes=cred.toString().getBytes("UTF-8");
+               // JSONObject cred = new JSONObject();
+               // cred.put("padreId",json2);
+                byte[] bytes=json2.toString().getBytes("UTF-8");
 
 
                 // Activar método POST
@@ -121,10 +121,10 @@ public class SonsActivity extends AppCompatActivity {
                     Log.d("valor de i", String.valueOf(i));
                     JSONObject jsonTmp = jsonArr.getJSONObject(i);
                     Hijos temp = new Hijos();
-                    temp.setNombre(jsonTmp.getString("nombres"));
-                    temp.setEdad(jsonTmp.getString("nombres"));
+                    temp.setNombre(jsonTmp.getString("nombre"));
+                    temp.setEdad(jsonTmp.getString("edad"));
                     temp.setSexo(jsonTmp.getString("sexo"));
-                    temp.setHijoId(jsonTmp.getString("ci"));
+                    temp.setHijoId(jsonTmp.getString("hijoCi"));
                     hijosG.add(temp);
                 };
 
@@ -189,11 +189,12 @@ public class SonsActivity extends AppCompatActivity {
                 Log.d("valor i", hijosG.get(i).getNombre());
                 Log.d("valor adapterView",adapterView.getAdapter().getItem(i).toString());
                 Intent vacunasHijosAct = new Intent(getApplicationContext(),VacunasHijoActivity.class);
+                vacunasHijosAct.putExtra("hijoCi",hijosG.get(i).getHijoId());
                 startActivity(vacunasHijosAct);
-            }
+    }
 
 
-        });
+});
 
     }
 }
