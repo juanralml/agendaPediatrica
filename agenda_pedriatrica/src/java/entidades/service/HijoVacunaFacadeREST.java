@@ -129,11 +129,19 @@ public class HijoVacunaFacadeREST extends AbstractFacade<HijoVacuna> {
     @Produces({"application/json"})
     public List<ObjetoVacunaHijoApp> getHijoVacuna(OrdenFiltradoVH objeto) {
         List<ObjetoVacunaHijoApp> list  = new ArrayList<ObjetoVacunaHijoApp>();
+        String orderbypre = objeto.getColumnaOrden();
+        String orderby="esquema_ideal_meses";
+        if(orderbypre.equals("Esquema Ideal")) orderby="esquema_ideal_meses";
+        if(orderbypre.equals("Nombre")) orderby="a.descripcion";
+        if(orderbypre.equals("Aplicado")) orderby="aplicado desc";
+        if(orderbypre.equals("Fecha")) orderby="fecha";
+        orderby = "order by "+orderby;
+        
         //ejecutar query nativo para obtener vacunas
         Query query = this.getEntityManager().createNativeQuery("select\n" +
 "a.id id_vacuna,? hijo_ci, a.descripcion nombre_vacuna,case when hijo_ci is null then 'no' else 'si' end aplicado, esquema_ideal_meses::text, coalesce(to_char(fecha,'DD/MM/YYYY')::text,'')\n" +
 "from vacunas a\n" +
-"left join hijo_vacuna b on b.vacuna_id = a.id and b.hijo_ci = ?")
+"left join hijo_vacuna b on b.vacuna_id = a.id and b.hijo_ci = ?\n"+orderby)
                 .setParameter(1, objeto.getHijoCi())
                 .setParameter(2, objeto.getHijoCi());
         //guardar resultado en una lista
