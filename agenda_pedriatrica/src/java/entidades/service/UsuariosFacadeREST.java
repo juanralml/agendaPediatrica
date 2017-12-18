@@ -191,6 +191,18 @@ public class UsuariosFacadeREST extends AbstractFacade<Usuarios> {
        return notif;
     }
     
+    @POST
+    @Path("validate")
+    @Consumes({"application/json"})
+    @Produces({"application/json"})
+    public List<Usuarios> validate(Usuarios entity) {
+       List<Usuarios> user;
+        
+        return this.getEntityManager().createNamedQuery("Usuarios.findByEmail")
+                .setParameter("email", entity.getEmail())
+                .getResultList();
+         
+    } 
     
     @Override
     protected EntityManager getEntityManager() {
