@@ -7,12 +7,14 @@ package entidades.service;
 
 import entidades.Hijo;
 import entidades.Usuarios;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.json.JsonObject;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -21,6 +23,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import jsonObjects.ObjetoHijo;
 
 /**
  *
@@ -92,6 +95,41 @@ public class HijoFacadeREST extends AbstractFacade<Hijo> {
        return this.getEntityManager().createNamedQuery("Hijo.findByPadreId")
                 .setParameter("padreId", entity.getPadreId())
                 .getResultList();
+    }
+    
+    
+    @POST
+    @Path("listHijoPorPadre")
+    @Consumes({"application/json"})
+    @Produces({"application/json"})
+    public List<ObjetoHijo> getHijoVacuna(Usuarios entity) {
+        List<ObjetoHijo> list  = new ArrayList<ObjetoHijo>();
+        //ejecutar query nativo para obtener vacunas
+        Query query = this.getEntityManager().createNativeQuery("select\n" +
+        "ci,\n" +
+        "nombres as nombre,\n" +
+        "extract(year from age(fecha_nacimiento))||' años y '  ||  extract(month from age(fecha_nacimiento)) || ' meses' edad,\n" +
+        "fecha_nacimiento::text,\n" +
+        "sexo\n" +
+        "from hijo\n"+
+        "where padre_id=?")
+        .setParameter(1, (int) entity.getId());
+        //guardar resultado en una lista
+        List<Object[]> result= query.getResultList();
+        //recorrer lista
+        for (Object[] a : result) {
+            //obtener varialbes
+            String a1 =  (String) a[0];
+            String a2 = (String) a[1];
+            String a3 = (String) a[2];
+            String a4 = (String) a[3];
+            String a5 = (String) a[4];
+            //cargar en json a responser
+            ObjetoHijo preList= new ObjetoHijo(a1,a2,a3,a4,a5);
+            list.add(preList);
+        }
+        //retorno
+       return list;
     }
 
     @Override
