@@ -1,9 +1,12 @@
 package com.example.usuario.app_agenda1;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.JsonReader;
 import android.util.Log;
@@ -195,6 +198,28 @@ public class SonsActivity extends AppCompatActivity {
 
 
 });
+        notificacion();
+    }
 
+
+    public void notificacion(){
+        NotificationCompat.Builder mBuilder;
+        NotificationManager mNotifyMgr =(NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
+
+        int icono = R.mipmap.ic_launcher;
+        Intent i=new Intent(getApplicationContext(), MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, i, 0);
+        //    if(jsonOG !=null){
+        mBuilder =new NotificationCompat.Builder(getApplicationContext())
+                .setContentIntent(pendingIntent)
+                .setSmallIcon(icono)
+                .setContentTitle("Alerta de Vacunas Pedientes")
+                .setContentText("Tiene uno o mas hijos con Vacunas Pedinetes en fechas sercanas.")
+                // .setVibrate(new long[] {100, 250, 100, 500})
+                .setAutoCancel(true);
+
+
+
+        mNotifyMgr.notify(1, mBuilder.build());
     }
 }

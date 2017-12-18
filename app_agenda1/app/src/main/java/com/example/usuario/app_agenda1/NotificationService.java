@@ -12,7 +12,6 @@ import android.os.IBinder;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,7 +30,7 @@ public class NotificationService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Toast.makeText(this, "Servicio creado!", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, "Servicio creado!", Toast.LENGTH_SHORT).show();
         myTask = new MyTask();
     }
 

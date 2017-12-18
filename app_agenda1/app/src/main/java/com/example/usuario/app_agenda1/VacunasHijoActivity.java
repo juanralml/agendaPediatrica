@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -37,6 +38,7 @@ public class VacunasHijoActivity extends AppCompatActivity {
     private Spinner spinner2;
     private ArrayList<String> ordenList = new ArrayList<String>();
     private Button buttonF;
+    private EditText textFilter;
 
   //  {"Esquema Ideal","Nombre","Aplicado","Fecha"};
     @Override
@@ -51,7 +53,8 @@ public class VacunasHijoActivity extends AppCompatActivity {
         spinner2 = (Spinner) findViewById(R.id.spinner2);
         spinner.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,ordenList));
         spinner2.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,ordenList));
-
+        textFilter = (EditText) findViewById(R.id.editFilter);
+        textFilter.setText("");
         buttonF = (Button) findViewById(R.id.button);
         Intent intent=getIntent();
         Bundle extras =intent.getExtras();
@@ -76,9 +79,21 @@ public class VacunasHijoActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 orden = ordenList.get(i);
-                Log.d("entra??","si");
-                Log.d("entra??",orden);
+
            //     exeSElect();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                filtro = ordenList.get(i);
             }
 
             @Override
@@ -90,6 +105,7 @@ public class VacunasHijoActivity extends AppCompatActivity {
         buttonF.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 exeSElect();
             }
         });
@@ -121,7 +137,7 @@ public class VacunasHijoActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(ArrayList<VacunasHijos> vacunasHijos2) {
-            Log.d("vacu",vacunasHijos2.toString());
+           // Log.d("vacu",vacunasHijos2.toString());
             if(vacunasHijos2!=null) {
                 Log.d("paso","no");
                 AdapterVacunasHijos adapter = new AdapterVacunasHijos(act, vacunasHijos2);
@@ -174,7 +190,7 @@ public class VacunasHijoActivity extends AppCompatActivity {
                 cred.put("hijoCi",hijoCi);
                 cred.put("columnaOrden",orden);
                 cred.put("columnaFiltro",filtro);
-                cred.put("datoFiltro","");
+                cred.put("datoFiltro",textFilter.getText());
 
                 byte[] bytes=cred.toString().getBytes("UTF-8");
 
