@@ -11,15 +11,15 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by usuario on 06/11/2017.
+ * Created by usuario on 17/11/2017.
  */
 
-public class AdapterItem extends BaseAdapter {
+public class AdapterVacunasHijos extends BaseAdapter {
 
     protected Activity activity;
-    protected ArrayList<Hijos> items;
+    protected ArrayList<VacunasHijos> items;
 
-    public AdapterItem(Activity activity, ArrayList<Hijos> items) {
+    public AdapterVacunasHijos(Activity activity, ArrayList<VacunasHijos> items) {
         this.activity = activity;
         this.items = items;
     }
@@ -49,19 +49,19 @@ public class AdapterItem extends BaseAdapter {
 
         if (view == null) {
             LayoutInflater inf = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inf.inflate(R.layout.item_hijos, null);
+            v = inf.inflate(R.layout.item_vacunas_hijos, null);
         }
 
-        Hijos dir = items.get(i);
+        VacunasHijos dir = items.get(i);
 
-        TextView nombre = (TextView) v.findViewById(R.id.nombreHijo);
-        nombre.setText(dir.getNombre());
+        TextView nombreVacuna = (TextView) v.findViewById(R.id.nombreVacuna);
+        nombreVacuna.setText(dir.getNombreVacuna());
 
-        TextView edad = (TextView) v.findViewById(R.id.edadHijo);
-        edad.setText(dir.getEdad());
+        TextView esquemaIdeal = (TextView) v.findViewById(R.id.esquemaIdeal);
+        esquemaIdeal.setText(dir.getEsquemaIdeal());
 
-        TextView sexo = (TextView) v.findViewById(R.id.sexoHijo);
-        sexo.setText(dir.getSexo());
+        TextView aplicado = (TextView) v.findViewById(R.id.aplicado);
+        aplicado.setText(dir.getAplicado());
 
         return v;
     }

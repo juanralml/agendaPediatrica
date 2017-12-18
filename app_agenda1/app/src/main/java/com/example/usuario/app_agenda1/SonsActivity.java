@@ -1,11 +1,14 @@
 package com.example.usuario.app_agenda1;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.JsonReader;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,6 +27,7 @@ import java.util.List;
 
 
 public class SonsActivity extends AppCompatActivity {
+    private int idPadre;
     private TextView jsonReturn;
     private ListView lv;
     private AdapterItem adapter;
@@ -45,7 +49,7 @@ public class SonsActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Log.d("log bakc",hijos.get(0).getNombre());
+            //Log.d("log bakc",hijos.get(0).getNombre());
             return hijos;
 
         }
@@ -53,7 +57,7 @@ public class SonsActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Hijos> hijos) {
             Log.d("entro en pos","entro");
-            Log.d("log bakc",hijos.get(0).getNombre());
+            //Log.d("log bakc",hijos.get(0).getNombre());
             /*
             Asignar los objetos de Json parseados al adaptador
              */
@@ -62,7 +66,7 @@ public class SonsActivity extends AppCompatActivity {
 
                 lv.setAdapter(adapter);
             }else{
-
+                Log.d("error","no hay usuarios");
             }
         }
 
@@ -71,8 +75,10 @@ public class SonsActivity extends AppCompatActivity {
 
         }
         protected ArrayList conect() throws IOException, JSONException {
-//            URL url = new URL("http://192.168.10.140:8080/agenda_pedriatrica/webresources/entidades.hijo/por_padre");
-            URL url = new URL("http://192.168.0.25:8080/agenda_pedriatrica/webresources/entidades.hijo/por_padre");
+            //url del servidor restfull
+            //URL url = new URL("http://192.168.10.131:8080/agenda_pedriatrica/webresources/entidades.hijo/por_padre");
+            URL url = new URL("http://172.20.10.4:8080/agenda_pedriatrica/webresources/entidades.hijo/por_padre");
+//            URL url = new URL("http://192.168.0.15:8080/agenda_pedriatrica/webresources/entidades.hijo/por_padre");
              HttpURLConnection con = null;
             try {
                 con = (HttpURLConnection)url.openConnection();
@@ -81,7 +87,7 @@ public class SonsActivity extends AppCompatActivity {
                 con.setRequestProperty("Content-Type","application/json");
                 //creacion del objeto json que se enviara
                 JSONObject json2 = new JSONObject();
-                json2.put("id",8);
+                json2.put("id",idPadre);
                 JSONObject cred = new JSONObject();
                 cred.put("padreId",json2);
                 byte[] bytes=cred.toString().getBytes("UTF-8");
@@ -161,12 +167,33 @@ public class SonsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sons);
+        Intent intent=getIntent();
+        Bundle extras =intent.getExtras();
+        if (extras != null) {//ver si contiene datos
+            int idPadreTpm= (int) extras.get("idPadre");//Obtengo el nombre
+            this.idPadre = idPadreTpm;
+        }
 
         new ConecteToHttp().execute();
+        //stopService(new Intent(SonsActivity.this, NotificationService.class));
+        //startService(new Intent(SonsActivity.this, NotificationService.class));
         act = this;
         lv = (ListView) findViewById(R.id.lista_hijos);
 
 
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("valor i", String.valueOf(i));
+                Log.d("valor i", hijosG.get(i).getNombre());
+                Log.d("valor adapterView",adapterView.getAdapter().getItem(i).toString());
+                Intent vacunasHijosAct = new Intent(getApplicationContext(),VacunasHijoActivity.class);
+                startActivity(vacunasHijosAct);
+            }
+
+
+        });
 
     }
 }

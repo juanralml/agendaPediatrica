@@ -1,0 +1,110 @@
+{
+  "project_info": {
+    "project_number": "580893107004",
+    "project_id": "agenda-pediatrica"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:580893107004:android:5fffb412c8482562",
+        "android_client_info": {
+          "package_name": "agendaPediatrica.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "580893107004-gdb8vvqt9inkmjj712g40744nedf08na.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhlH3YSU-eBv8cVvdEIAA1qrT8b4F1LKQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:580893107004:android:27d689d63f1b7a06",
+        "android_client_info": {
+          "package_name": "com.google.samples.quickstart.signin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "580893107004-gdb8vvqt9inkmjj712g40744nedf08na.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhlH3YSU-eBv8cVvdEIAA1qrT8b4F1LKQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:580893107004:android:c7b7d5f937da7f87",
+        "android_client_info": {
+          "package_name": "com.example.usuario.app_agenda1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "580893107004-c2ghsdnfrv8kas6fg69vqldo5omn3gh1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.usuario.app_agenda1",
+            "certificate_hash": "a6051cf538050e5d157028958b5d542a4d1ab818"
+          }
+        },
+        {
+          "client_id": "580893107004-gdb8vvqt9inkmjj712g40744nedf08na.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhlH3YSU-eBv8cVvdEIAA1qrT8b4F1LKQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
